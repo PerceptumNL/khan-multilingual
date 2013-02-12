@@ -1,3 +1,10 @@
+# Ignore PyCharm project files:
+.idea/
+
+#Ignore gedit buffer files
+*~
+
+# Standard:
 *.pyc
 *combined.js
 *compressed.js
