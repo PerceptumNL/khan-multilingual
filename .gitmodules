@@ -1,0 +1,24 @@
+[submodule "third_party/wtforms-src"]
+	path = third_party/wtforms-src
+	url = https://github.com/Khan/wtforms.git
+[submodule "third_party/werkzeug-src"]
+	path = third_party/werkzeug-src
+	url = https://github.com/Khan/werkzeug.git
+[submodule "third_party/appengine-search-src"]
+	path = third_party/appengine-search-src
+	url = https://github.com/Khan/appengine-search.git
+[submodule "third_party/flask-src"]
+	path = third_party/flask-src
+	url = https://github.com/Khan/flask.git
+[submodule "third_party/werkzeug-debugger-appengine-src"]
+	path = third_party/werkzeug-debugger-appengine-src
+	url = https://github.com/daaku/werkzeug-debugger-appengine.git
+[submodule "third_party/agar-src"]
+	path = third_party/agar-src
+	url = https://github.com/Khan/agar.git
+[submodule "third_party/gdata-python-client-src"]
+	path = third_party/gdata-python-client-src
+	url = https://github.com/Khan/gdata-python-client.git
+[submodule "third_party/appengine-mapreduce-src"]
+	path = third_party/appengine-mapreduce-src
+	url = https://github.com/Khan/appengine-mapreduce.git
