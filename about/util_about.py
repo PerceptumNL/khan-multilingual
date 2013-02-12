@@ -1,7 +1,7 @@
 import request_handler
 import user_util
 from video_models import Video
-
+from webapp2_extras import i18n
 
 class AboutRequestHandler(request_handler.RequestHandler):
     def render_jinja2_template(self, template_name, template_values):
@@ -16,6 +16,7 @@ class ViewAbout(AboutRequestHandler):
         self.render_jinja2_template('about/about_the_site.html', {
             "selected_id": "the-site",
             "approx_vid_count": Video.approx_count(),
+            "test_msg": i18n._("AAAAAAAAAAAAAAAAAA")
         })
 
 
