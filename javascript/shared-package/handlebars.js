@@ -21,6 +21,12 @@ Handlebars.registerPartial = function (name, str) {
     this.partials[name] = str;
 };
 
+Handlebars.registerHelper('I18n',
+    function(str){
+        return (I18n != undefined ? I18n.t(str) : str);
+    }
+);
+
 Handlebars.registerHelper('helperMissing', function (arg) {
     if (arguments.length === 2) {
         return undefined;
