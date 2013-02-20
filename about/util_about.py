@@ -13,10 +13,11 @@ class AboutRequestHandler(request_handler.RequestHandler):
 class ViewAbout(AboutRequestHandler):
     @user_util.open_access
     def get(self):
+        locale = self.request.GET.get('locale', 'nl_NL')
+        i18n.get_i18n().set_locale(locale)
         self.render_jinja2_template('about/about_the_site.html', {
             "selected_id": "the-site",
             "approx_vid_count": Video.approx_count(),
-            "test_msg": i18n._("AAAAAAAAAAAAAAAAAA")
         })
 
 
