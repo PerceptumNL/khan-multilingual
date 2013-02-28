@@ -21,6 +21,8 @@ def register_conditional_file(debug_name, prod_name):
 javascript = {
     "shared": {
         "files": [
+            # i18n
+            "i18next-1.6.0.js",
             # general purpose libs
             "jquery.js",
             "jquery-ui-1.8.16.custom.js",

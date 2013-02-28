@@ -21,11 +21,10 @@ Handlebars.registerPartial = function (name, str) {
     this.partials[name] = str;
 };
 
-Handlebars.registerHelper('I18n',
-    function(str){
-        return (I18n != undefined ? I18n.t(str) : str);
-    }
-);
+Handlebars.registerHelper('_', function(i18n_key) {
+    var result = i18n.t(i18n_key);
+    return new Handlebars.SafeString(result);
+});
 
 Handlebars.registerHelper('helperMissing', function (arg) {
     if (arguments.length === 2) {
@@ -228,16 +227,16 @@ var handlebars = (function () {
                     this.$ = [$$[$0 - 2], $$[$0]]
                     break;
                 case 35:
-                    this.$ = [$$[$0 - 2], new yy.StringNode($$[$0])]
+                    this.$ = [$$[$0 - 2], new yy.StringNode($$[$0])];
                     break;
                 case 36:
-                    this.$ = [$$[$0 - 2], new yy.IntegerNode($$[$0])]
+                    this.$ = [$$[$0 - 2], new yy.IntegerNode($$[$0])];
                     break;
                 case 37:
-                    this.$ = [$$[$0 - 2], new yy.BooleanNode($$[$0])]
+                    this.$ = [$$[$0 - 2], new yy.BooleanNode($$[$0])];
                     break;
                 case 38:
-                    this.$ = new yy.IdNode($$[$0])
+                    this.$ = new yy.IdNode($$[$0]);
                     break;
                 case 39:
                     $$[$0 - 2].push($$[$0]);
