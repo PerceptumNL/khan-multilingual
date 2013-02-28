@@ -1,4 +1,5 @@
 export PATH=$PWD/kenv/libexec:$PATH
+export SERVER_SOFTWARE="Development"
 alias grep='GREP_COLOR="1;37;41" LANG=C grep --color=always'
 eval "$(kenv/bin/kenv init -)"
 
