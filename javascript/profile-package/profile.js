@@ -61,13 +61,14 @@ var Profile = {
     /**
      * Overridden w profile-intro.js if necessary
      */
-    showIntro_: function() {},
+    showIntro_: function () {
+    },
 
     /**
      * Called to initialize the profile page. Passed in with JSON information
      * rendered from the server. See templates/viewprofile.html for details.
      */
-    init: function(json) {
+    init: function (json) {
         this.profile = new ProfileModel(json.profileData);
         this.profile.bind("savesuccess", this.onProfileUpdated_, this);
         this.showDiscussionIntro = json.showDiscussionIntro;
@@ -127,17 +128,17 @@ var Profile = {
         var navElementHandler = _.bind(this.onNavigationElementClicked_, this);
         // Delegate clicks for tab navigation
         $(".profile-navigation").delegate("a",
-                "click", navElementHandler);
+            "click", navElementHandler);
 
         // Delegate clicks for vital statistics time period navigation
         $("#tab-content-vital-statistics").delegate(".graph-date-picker a",
-                "click", navElementHandler);
+            "click", navElementHandler);
 
         $("#tab-content-goals").delegate(".graph-picker .type a",
-                "click", navElementHandler);
+            "click", navElementHandler);
 
         // Delegate clicks for recent badge-related activity
-        $(".achievement .ach-text").delegate("a", "click", function(event) {
+        $(".achievement .ach-text").delegate("a", "click", function (event) {
             if (!event.metaKey) {
                 event.preventDefault();
                 Profile.router.navigate("achievements", true);
@@ -150,7 +151,7 @@ var Profile = {
             .on("click", navElementHandler);
 
         // Delegate clicks for sorting in discussion
-        $(".discussion-sort-links a").on("click", function(event) {
+        $(".discussion-sort-links a").on("click", function (event) {
             event.preventDefault();
             var jobj = $(this);
             var jparent = jobj.parent(".discussion-sort-links");
@@ -161,7 +162,7 @@ var Profile = {
         });
 
         // Delegate clicks for more-buttons in discussion
-        $(".more-button").on("click", function(event) {
+        $(".more-button").on("click", function (event) {
             event.preventDefault();
             Profile.Discussion.loadMore(
                 $(this).data("feedbackType"));
@@ -172,6 +173,10 @@ var Profile = {
         $(".discussion-block, #questions, #answers, #comments")
             .on("click", ".discussion-item a.covering-link",
                 Profile.Discussion.trackItemClick);
+
+        // I18next initialization:
+        i18nOptions = {resGetPath: 'locale/__lng__/__ns__'};
+        i18n.init(i18nOptions);
     },
 
     /**
@@ -218,7 +223,7 @@ var Profile = {
     /**
      * Generate routes hash to be used by Profile.router
      */
-    buildRoutes_: function() {
+    buildRoutes_: function () {
         var routes = this.subRoutes;
         var n = this.profileRoot.length;
 
@@ -236,7 +241,7 @@ var Profile = {
     /**
      * Handle a change to the profile root.
      */
-    onProfileUpdated_: function() {
+    onProfileUpdated_: function () {
         var username = this.profile.get("username");
         if (username && Profile.profileRoot != ("/profile/" + username + "/")) {
             // Profile root changed - we need to reload the page since
@@ -246,8 +251,8 @@ var Profile = {
     },
 
     TabRouter: Backbone.Router.extend({
-        showDefault: function() {
-            Profile.populateActivity().then(function() {
+        showDefault: function () {
+            Profile.populateActivity().then(function () {
                 // Pre-fetch badges, after the activity has been loaded, since
                 // they're needed to edit the display-case.
                 if (Profile.profile.isEditable()) {
@@ -259,7 +264,7 @@ var Profile = {
             this.updateTitleBreadcrumbs();
         },
 
-        showVitalStatistics: function(graph, exercise, timePeriod) {
+        showVitalStatistics: function (graph, exercise, timePeriod) {
             var exercise = exercise || "addition_1";
             // Note: the URL's must include the trailing ? so that parameters
             // tacked on later will work.
@@ -269,7 +274,7 @@ var Profile = {
                     "skill-progress-over-time": "/profile/graph/exercisesovertime?",
                     "skill-progress": "/api/v1/user/exercises?",
                     "problems": "/profile/graph/exerciseproblems?" +
-                                            "exercise_name=" + exercise
+                        "exercise_name=" + exercise
                 },
                 timePeriodLookup = {
                     "today": "&dt_start=today",
@@ -287,10 +292,10 @@ var Profile = {
             // See redirect_for_more_data in util_profile.py for more on this tragedy.
             $("#tab-content-vital-statistics").show()
                 .find(".vital-statistics-description ." + graph).show()
-                    .find(".graph-date-picker .tabrow .last-week").addClass("selected")
-                        .siblings().removeClass("selected").end()
-                    .end()
-                    .siblings().hide().end()
+                .find(".graph-date-picker .tabrow .last-week").addClass("selected")
+                .siblings().removeClass("selected").end()
+                .end()
+                .siblings().hide().end()
                 .end().siblings().hide();
 
             this.activateRelatedTab($("#tab-content-vital-statistics").attr("rel") + " " + graph);
@@ -306,17 +311,17 @@ var Profile = {
             }
         },
 
-        showExerciseProblems: function(exercise) {
+        showExerciseProblems: function (exercise) {
             this.showVitalStatistics("problems", exercise);
         },
 
-        showVitalStatisticsForTimePeriod: function(graph, timePeriod) {
+        showVitalStatisticsForTimePeriod: function (graph, timePeriod) {
             this.showVitalStatistics(graph, null, timePeriod);
             $(".vital-statistics-description ." + graph + " ." + timePeriod).addClass("selected")
                 .siblings().removeClass("selected");
         },
 
-        showAchievements: function() {
+        showAchievements: function () {
             Profile.populateAchievements();
             $("#tab-content-achievements").show()
                 .siblings().hide();
@@ -324,7 +329,7 @@ var Profile = {
             this.updateTitleBreadcrumbs(["Achievements"]);
         },
 
-        showGoals: function(type) {
+        showGoals: function (type) {
             type = type || "current";
             Profile.populateGoals();
 
@@ -336,7 +341,7 @@ var Profile = {
             this.updateTitleBreadcrumbs(["Goals"]);
         },
 
-        showCoaches: function() {
+        showCoaches: function () {
             Profile.populateCoaches();
 
             $("#tab-content-coaches").show()
@@ -350,7 +355,7 @@ var Profile = {
             }
         },
 
-        showDiscussion: function(type) {
+        showDiscussion: function (type) {
             type = type || "discussion";
 
             if (type === "answers") {
@@ -389,20 +394,20 @@ var Profile = {
 
             this.activateRelatedTab("community discussion");
         },
-        showAnswers: function() {
+        showAnswers: function () {
             this.showDiscussion("answers");
         },
-        showQuestions: function() {
+        showQuestions: function () {
             this.showDiscussion("questions");
         },
-        showComments: function() {
+        showComments: function () {
             this.showDiscussion("comments");
         },
-        showNotificationsTab: function() {
+        showNotificationsTab: function () {
             this.showDiscussion("notifications");
         },
 
-        showExplorations: function() {
+        showExplorations: function () {
             if (!Profile.displayExplorations) {
                 return this.showDefault();
             }
@@ -417,7 +422,7 @@ var Profile = {
         },
 
         settingsIframe_: null,
-        showSettings: function() {
+        showSettings: function () {
             // TODO(benkomalo): maybe settings shouldn't be under a profile
             // URL and should be a dedicated URL...
             if (!Profile.isSettingsAvailable) {
@@ -437,13 +442,13 @@ var Profile = {
                     params = "?username=" + Profile.profile.get("username");
                 }
                 Profile.settingsIframe_ = $("<iframe></iframe>")
-                        .attr("src", "/pwchange" + params)
-                        .attr("frameborder", "0")
-                        .attr("scrolling", "no")
-                        .attr("allowtransparency", "yes")
-                        .attr("id", "settings-iframe")
-                        .attr("class", "settings-iframe")
-                        .appendTo($("#tab-content-settings"));
+                    .attr("src", "/pwchange" + params)
+                    .attr("frameborder", "0")
+                    .attr("scrolling", "no")
+                    .attr("allowtransparency", "yes")
+                    .attr("id", "settings-iframe")
+                    .attr("class", "settings-iframe")
+                    .appendTo($("#tab-content-settings"));
             }
 
             // Show.
@@ -452,7 +457,7 @@ var Profile = {
             this.updateTitleBreadcrumbs(["Settings"]);
         },
 
-        activateRelatedTab: function(rel) {
+        activateRelatedTab: function (rel) {
             $(".profile-navigation a").removeClass("active-tab");
             $("a[rel='" + rel + "']").addClass("active-tab");
         },
@@ -464,7 +469,7 @@ var Profile = {
          * @param {Array.<string>} parts A list of strings that will be HTML-escaped
          *     to be the breadcrumbs.
          */
-        updateTitleBreadcrumbs: function(parts) {
+        updateTitleBreadcrumbs: function (parts) {
             $(".profile-notification").hide();
 
             var sheetTitle = $(".profile-sheet-title"),
@@ -484,13 +489,12 @@ var Profile = {
 
                 if (!Profile.profile.isActivityAccessible() &&
                     _.indexOf(visibleTabs, parts[0]) === -1) {
-                        Profile.showNotification("public");
+                    Profile.showNotification("public");
                 }
             } else {
 
                 // If the profile is private, hide the landing page.
-                if (!Profile.profile.get("isPublic") &&
-                        !Profile.profile.isActivityAccessible()) {
+                if (!Profile.profile.get("isPublic") && !Profile.profile.isActivityAccessible()) {
                     Profile.showNotification("empty-landing-page");
                 }
 
@@ -508,7 +512,7 @@ var Profile = {
      * Navigate the router appropriately,
      * either to change profile sheets or vital-stats time periods.
      */
-    onNavigationElementClicked_: function(e) {
+    onNavigationElementClicked_: function (e) {
         // TODO: Make sure middle-click + windows control-click Do The Right Thing
         // in a reusable way
         if (!e.metaKey) {
@@ -529,7 +533,7 @@ var Profile = {
      * @param {Object} baseParams An optional parameter for additional
      *     parameters to be sent along with the server request.
      */
-    loadGraph: function(href, baseParams) {
+    loadGraph: function (href, baseParams) {
         var apiCallbacksTable = {
             "/api/v1/user/exercises": this.renderExercisesTable,
             "/api/v1/exercises": this.renderFakeExercisesTable_
@@ -539,7 +543,7 @@ var Profile = {
         }
 
         if (this.fLoadingGraph) {
-            _.delay(function() {
+            _.delay(function () {
                 Profile.loadGraph(href, baseParams);
             }, 200);
             return;
@@ -560,10 +564,10 @@ var Profile = {
             url: Timezone.append_tz_offset_query_param(href),
             data: baseParams || {},
             dataType: apiCallback ? "json" : "html",
-            success: function(data) {
+            success: function (data) {
                 Profile.finishLoadGraph(data, apiCallback);
             },
-            error: function() {
+            error: function () {
                 Profile.finishLoadGraphError();
             }
         });
@@ -571,7 +575,7 @@ var Profile = {
         Profile.showThrobber("graph", true);
     },
 
-    finishLoadGraph: function(data, apiCallback) {
+    finishLoadGraph: function (data, apiCallback) {
         this.fLoadingGraph = false;
         this.hideThrobber("graph", true);
 
@@ -587,13 +591,13 @@ var Profile = {
         this.fLoadedGraph = true;
     },
 
-    finishLoadGraphError: function() {
+    finishLoadGraphError: function () {
         this.fLoadingGraph = false;
         this.hideThrobber("graph", true);
         this.showNotification("error-graph");
     },
 
-    renderFakeGraph: function(graphName, timePeriod) {
+    renderFakeGraph: function (graphName, timePeriod) {
         if (graphName === "activity") {
             ActivityGraph.render(null, timePeriod);
             Profile.fLoadedGraph = true;
@@ -608,9 +612,9 @@ var Profile = {
         }
     },
 
-    generateFakeExerciseTableData_: function(exerciseData) {
+    generateFakeExerciseTableData_: function (exerciseData) {
         // Generate some vaguely plausible exercise progress data
-        return _.map(exerciseData, function(exerciseModel) {
+        return _.map(exerciseData, function (exerciseModel) {
             // See models.py -- hPosition corresponds to the node's vertical position
             var position = exerciseModel["hPosition"],
                 totalDone = 0,
@@ -654,7 +658,7 @@ var Profile = {
         });
     },
 
-    renderFakeExercisesTable_: function(exerciseData) {
+    renderFakeExercisesTable_: function (exerciseData) {
         // Do nothing if the user switches sheets before /api/v1/exercises responds
         // (The other fake sheets are rendered randomly client-side)
 
@@ -672,7 +676,7 @@ var Profile = {
     /**
      * Renders the exercise blocks given the JSON blob about the exercises.
      */
-    renderExercisesTable: function(data, bindEvents) {
+    renderExercisesTable: function (data, bindEvents) {
         var templateContext = [],
             bindEvents = (bindEvents === undefined) ? true : bindEvents,
             isEmpty = true,
@@ -732,7 +736,7 @@ var Profile = {
 
         if (bindEvents) {
             Profile.hoverContent($("#module-progress .student-module-status"));
-            $("#module-progress .student-module-status").click(function(e) {
+            $("#module-progress .student-module-status").click(function (e) {
                 $("#info-hover-container").hide();
                 // Extract the name from the ID, which has been prefixed.
                 var exerciseName = this.id.substring("exercise-".length);
@@ -744,7 +748,7 @@ var Profile = {
     /**
      * Slide down the progress bar into view
      */
-    showThrobber: function(which, animated) {
+    showThrobber: function (which, animated) {
         if (animated) {
             $("#" + which + "-progress-bar")
                 .progressbar({value: 100})
@@ -760,7 +764,7 @@ var Profile = {
     /**
      * Slide up the progress bar out of view
      */
-    hideThrobber: function(which, animated) {
+    hideThrobber: function (which, animated) {
         if (animated) {
             $("#" + which + "-progress-bar").slideUp("fast");
         }
@@ -773,9 +777,9 @@ var Profile = {
      * Show a profile notification
      * Expects the class name of the div to show, such as "error-graph"
      */
-    showNotification: function(className) {
+    showNotification: function (className) {
         var jel = $(".profile-notification").removeClass("uncover-nav")
-                    .removeClass("cover-top");
+            .removeClass("cover-top");
 
         if (className === "empty-graph") {
             jel.addClass("uncover-nav");
@@ -788,7 +792,7 @@ var Profile = {
             .siblings().hide();
     },
 
-    hoverContent: function(elements, containerSelector) {
+    hoverContent: function (elements, containerSelector) {
         var lastHoverTime,
             mouseX,
             mouseY;
@@ -796,14 +800,14 @@ var Profile = {
         containerSelector = containerSelector || "#graph-content";
 
         elements.hover(
-            function(e) {
+            function (e) {
                 var hoverTime = +(new Date()),
                     el = this;
                 lastHoverTime = hoverTime;
                 mouseX = e.pageX;
                 mouseY = e.pageY;
 
-                setTimeout(function() {
+                setTimeout(function () {
                     if (hoverTime !== lastHoverTime) {
                         return;
                     }
@@ -828,16 +832,16 @@ var Profile = {
                     }
                 }, 100);
             },
-            function(e) {
+            function (e) {
                 lastHoverTime = null;
                 $("#info-hover-container").hide();
             }
         );
     },
 
-    render: function() {
+    render: function () {
         var profileTemplate = Templates.get("profile.profile");
-        Handlebars.registerHelper("graph-date-picker-wrapper", function(block) {
+        Handlebars.registerHelper("graph-date-picker-wrapper", function (block) {
             this.graph = block.hash.graph;
             return block(this);
         });
@@ -869,12 +873,12 @@ var Profile = {
 
         Profile.populateUserCard();
 
-        this.profile.bind("change:nickname", function(profile) {
+        this.profile.bind("change:nickname", function (profile) {
             var nickname = profile.get("nickname") || "Profile";
             $("#profile-tab-link").text(nickname);
             $(".top-header-links .user-name a").text(nickname);
         });
-        this.profile.bind("change:avatarSrc", function(profile) {
+        this.profile.bind("change:avatarSrc", function (profile) {
             var src = profile.get("avatarSrc");
             $(".profile-tab-avatar").attr("src", src);
             $("#user-info .user-avatar").attr("src", src);
@@ -882,7 +886,7 @@ var Profile = {
     },
 
     userCardPopulated_: false,
-    populateUserCard: function() {
+    populateUserCard: function () {
         if (Profile.userCardPopulated_) {
             return;
         }
@@ -890,7 +894,7 @@ var Profile = {
         $(".user-info-container").html(Profile.userCardView.render().el);
 
         var publicBadgeList = new Badges.BadgeList(
-                this.profile.get("publicBadges"));
+            this.profile.get("publicBadges"));
         publicBadgeList.setSaveUrl("/api/v1/user/badges/public");
         var displayCase = new Badges.DisplayCase({ model: publicBadgeList });
         $(".sticker-book").append(displayCase.render().el);
@@ -900,7 +904,7 @@ var Profile = {
     },
 
     achievementsDeferred_: null,
-    populateAchievements: function() {
+    populateAchievements: function () {
         if (Profile.achievementsDeferred_) {
             return Profile.achievementsDeferred_;
         }
@@ -910,7 +914,7 @@ var Profile = {
             url: "/api/v1/user/badges",
             data: Profile.getBaseRequestParams_(),
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 if (Profile.profile.isEditable()) {
                     // The display-case is only editable if you're viewing your
                     // own profile
@@ -919,8 +923,8 @@ var Profile = {
                     var fullBadgeList = new Badges.UserBadgeList();
 
                     var collection = data["badgeCollections"];
-                    $.each(collection, function(i, categoryJson) {
-                        $.each(categoryJson["userBadges"], function(j, json) {
+                    $.each(collection, function (i, categoryJson) {
+                        $.each(categoryJson["userBadges"], function (j, json) {
                             fullBadgeList.add(new Badges.UserBadge(json));
                         });
                     });
@@ -931,47 +935,47 @@ var Profile = {
                 // and consolidate the information
 
                 var badgeInfo = [
-                        {
-                            icon: "/images/badges/meteorite-medium.png",
-                            className: "bronze",
-                            label: "Meteorite"
-                        },
-                        {
-                            icon: "/images/badges/moon-medium.png",
-                            className: "silver",
-                            label: "Moon"
-                        },
-                        {
-                            icon: "/images/badges/earth-medium.png",
-                            className: "gold",
-                            label: "Earth"
-                        },
-                        {
-                            icon: "/images/badges/sun-medium.png",
-                            className: "diamond",
-                            label: "Sun"
-                        },
-                        {
-                            icon: "/images/badges/eclipse-medium.png",
-                            className: "platinum",
-                            label: "Black Hole"
-                        },
-                        {
-                            icon: "/images/badges/master-challenge-blue.png",
-                            className: "master",
-                            label: "Challenge"
-                        }
-                    ];
+                    {
+                        icon: "/images/badges/meteorite-medium.png",
+                        className: "bronze",
+                        label: "Meteorite"
+                    },
+                    {
+                        icon: "/images/badges/moon-medium.png",
+                        className: "silver",
+                        label: "Moon"
+                    },
+                    {
+                        icon: "/images/badges/earth-medium.png",
+                        className: "gold",
+                        label: "Earth"
+                    },
+                    {
+                        icon: "/images/badges/sun-medium.png",
+                        className: "diamond",
+                        label: "Sun"
+                    },
+                    {
+                        icon: "/images/badges/eclipse-medium.png",
+                        className: "platinum",
+                        label: "Black Hole"
+                    },
+                    {
+                        icon: "/images/badges/master-challenge-blue.png",
+                        className: "master",
+                        label: "Challenge"
+                    }
+                ];
 
-                Handlebars.registerHelper("toMediumIconSrc", function(category) {
+                Handlebars.registerHelper("toMediumIconSrc", function (category) {
                     return badgeInfo[category].icon;
                 });
 
-                Handlebars.registerHelper("toBadgeClassName", function(category) {
+                Handlebars.registerHelper("toBadgeClassName", function (category) {
                     return badgeInfo[category].className;
                 });
 
-                Handlebars.registerHelper("toBadgeLabel", function(category, fStandardView) {
+                Handlebars.registerHelper("toBadgeLabel", function (category, fStandardView) {
                     var label = badgeInfo[category].label;
 
                     if (fStandardView) {
@@ -985,11 +989,11 @@ var Profile = {
                 });
 
                 Handlebars.registerPartial(
-                        "profile_badge-container",
-                        Templates.get("profile.badge-container"));
+                    "profile_badge-container",
+                    Templates.get("profile.badge-container"));
 
-                $.each(data["badgeCollections"], function(collectionIndex, collection) {
-                    $.each(collection["userBadges"], function(badgeIndex, userBadge) {
+                $.each(data["badgeCollections"], function (collectionIndex, collection) {
+                    $.each(collection["userBadges"], function (badgeIndex, userBadge) {
                         userBadge = Badges.addUserBadgeContext(userBadge);
                     });
                 });
@@ -1000,41 +1004,41 @@ var Profile = {
                 var achievementsTemplate = Templates.get("profile.achievements");
                 $("#tab-content-achievements").html(achievementsTemplate(data));
 
-                $("#achievements #achievement-list > ul li").click(function() {
-                     var category = $(this).attr("id");
-                     var clickedBadge = $(this);
+                $("#achievements #achievement-list > ul li").click(function () {
+                    var category = $(this).attr("id");
+                    var clickedBadge = $(this);
 
-                     $("#badge-container").css("display", "");
+                    $("#badge-container").css("display", "");
 
-                     clickedBadge.siblings().removeClass("selected");
+                    clickedBadge.siblings().removeClass("selected");
 
-                     if ($("#badge-container > #" + category).is(":visible")) {
+                    if ($("#badge-container > #" + category).is(":visible")) {
                         if (clickedBadge.parents().hasClass("standard-view")) {
-                            $("#badge-container > #" + category).slideUp(300, function() {
-                                    $("#badge-container").css("display", "none");
-                                    clickedBadge.removeClass("selected");
-                                });
+                            $("#badge-container > #" + category).slideUp(300, function () {
+                                $("#badge-container").css("display", "none");
+                                clickedBadge.removeClass("selected");
+                            });
                         }
                         else {
                             $("#badge-container > #" + category).hide();
                             $("#badge-container").css("display", "none");
                             clickedBadge.removeClass("selected");
                         }
-                     }
-                     else {
+                    }
+                    else {
                         var jelContainer = $("#badge-container");
                         var oldHeight = jelContainer.height();
                         $(jelContainer).children().hide();
                         if (clickedBadge.parents().hasClass("standard-view")) {
                             $(jelContainer).css("min-height", oldHeight);
-                            $("#" + category, jelContainer).slideDown(300, function() {
+                            $("#" + category, jelContainer).slideDown(300, function () {
                                 $(jelContainer).animate({"min-height": 0}, 200);
                             });
                         } else {
                             $("#" + category, jelContainer).show();
                         }
                         clickedBadge.addClass("selected");
-                     }
+                    }
                 });
 
                 $("abbr.timeago").timeago();
@@ -1043,8 +1047,10 @@ var Profile = {
                 $("#category-0").click();
 
                 // TODO: move into profile-goals.js?
-                var currentGoals = window.GoalBook.map(function(g) { return g.get("title"); });
-                _($(".add-goal")).map(function(elt) {
+                var currentGoals = window.GoalBook.map(function (g) {
+                    return g.get("title");
+                });
+                _($(".add-goal")).map(function (elt) {
                     var button = $(elt);
                     var badge = button.closest(".achievement-badge");
                     var goalTitle = badge.find(".achievement-title").text();
@@ -1054,13 +1060,13 @@ var Profile = {
 
                         button.remove();
 
-                    // add +goal behavior to button, once.
+                        // add +goal behavior to button, once.
                     } else {
-                        button.one("click", function() {
-                            var goalObjectives = _(badge.data("objectives")).map(function(exercise) {
+                        button.one("click", function () {
+                            var goalObjectives = _(badge.data("objectives")).map(function (exercise) {
                                 return {
-                                    "type" : "GoalObjectiveExerciseProficiency",
-                                    "internal_id" : exercise
+                                    "type": "GoalObjectiveExerciseProficiency",
+                                    "internal_id": exercise
                                 };
                             });
 
@@ -1072,14 +1078,14 @@ var Profile = {
                             window.GoalBook.add(goal);
 
                             goal.save()
-                                .fail(function(err) {
+                                .fail(function (err) {
                                     var error = err.responseText;
                                     button.addClass("failure")
                                         .text("oh no!").attr("title", "This goal could not be saved.");
                                     KAConsole.log("Error while saving new badge goal", goal);
                                     window.GoalBook.remove(goal);
                                 })
-                                .success(function() {
+                                .success(function () {
                                     button.text("Goal Added!").addClass("success");
                                     badge.find(".energy-points-badge").addClass("goal-added");
                                 });
@@ -1091,7 +1097,7 @@ var Profile = {
     },
 
     goalsDeferred_: null,
-    populateGoals: function() {
+    populateGoals: function () {
         if (Profile.goalsDeferred_) {
             return Profile.goalsDeferred_;
         }
@@ -1102,7 +1108,7 @@ var Profile = {
                 url: "/api/v1/user/goals",
                 data: Profile.getBaseRequestParams_(),
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     GoalProfileViewsCollection.render(data);
                 }
             });
@@ -1114,7 +1120,7 @@ var Profile = {
         return Profile.goalsDeferred_;
     },
 
-    renderFakeGoals_: function() {
+    renderFakeGoals_: function () {
         var exerciseGoal = new Goal(Goal.defaultExerciseProcessGoalAttrs_),
             videoGoal = new Goal(Goal.defaultVideoProcessGoalAttrs_),
             fakeGoalBook = new GoalCollection([exerciseGoal, videoGoal]),
@@ -1124,7 +1130,7 @@ var Profile = {
     },
 
     coachesDeferred_: null,
-    populateCoaches: function() {
+    populateCoaches: function () {
         if (Profile.coachesDeferred_) {
             return Profile.coachesDeferred_;
         }
@@ -1134,7 +1140,7 @@ var Profile = {
         return Profile.coachesDeferred_;
     },
 
-    populateExplorations: function() {
+    populateExplorations: function () {
         if (!Profile.explorationsDeferred_) {
             // TODO(jlfwong): This throbber keeps showing up as a grey bar
             // without the orange animation - fix that
@@ -1147,7 +1153,7 @@ var Profile = {
 
             Profile.explorationsDeferred_ = new ScratchpadList().fetchForUser({
                 data: data,
-                success: function(scratchpadList) {
+                success: function (scratchpadList) {
                     Profile.hideThrobber("explorations", true);
 
                     var $scratchpads = $("#scratchpads");
@@ -1155,20 +1161,20 @@ var Profile = {
                     if (scratchpadList.length === 0) {
                         $scratchpads.html(
                             "<p>You don't have any <a href='/explore/new'>" +
-                            "Scratchpads</a>!</p> <p>To get started you can " +
-                            "<a href='/explore'>browse through</a> a list of " +
-                            "existing explorations and modify them until " +
-                            "you've made something awesome.</p>" +
-                            "<p><a href='/explore'>" +
-                            "<input type='button' class='simple-button green'" +
-                            " value='Browse Explorations' /></a></p>"
+                                "Scratchpads</a>!</p> <p>To get started you can " +
+                                "<a href='/explore'>browse through</a> a list of " +
+                                "existing explorations and modify them until " +
+                                "you've made something awesome.</p>" +
+                                "<p><a href='/explore'>" +
+                                "<input type='button' class='simple-button green'" +
+                                " value='Browse Explorations' /></a></p>"
                         );
 
                     } else {
                         new ScratchpadListView({
                             collection: scratchpadList,
                             el: $scratchpads,
-                            sortBy: function(s) {
+                            sortBy: function (s) {
                                 // Sort the scratchpads list by the creation
                                 // time of the latest revision, newest to
                                 // oldest.
@@ -1186,10 +1192,10 @@ var Profile = {
         return Profile.explorationsDeferred_;
     },
 
-    populateSuggestedActivity: function(activities) {
+    populateSuggestedActivity: function (activities) {
         var suggestedTemplate = Templates.get("profile.suggested-activity");
 
-        var attachProgress = function(activity) {
+        var attachProgress = function (activity) {
             activity.progress = activity.progress || 0;
         };
         _.each(activities["exercises"] || [], attachProgress);
@@ -1197,7 +1203,7 @@ var Profile = {
         $("#suggested-activity").append(suggestedTemplate(activities));
     },
 
-    populateRecentActivity: function(activities) {
+    populateRecentActivity: function (activities) {
         var listTemplate = Templates.get("profile.recent-activity-list"),
             exerciseTemplate = Templates.get("profile.recent-activity-exercise"),
             badgeTemplate = Templates.get("profile.recent-activity-badge"),
@@ -1205,11 +1211,15 @@ var Profile = {
             goalTemplate = Templates.get("profile.recent-activity-goal");
 
         var badgeModels = _.chain(activities).
-            filter(function(a) { return a.sType === "Badge"; }).
-            map(function(a) { return new Backbone.Model(a.badge); }).
+            filter(function (a) {
+                return a.sType === "Badge";
+            }).
+            map(function (a) {
+                return new Backbone.Model(a.badge);
+            }).
             value();
 
-        Handlebars.registerHelper("renderActivity", function(activity) {
+        Handlebars.registerHelper("renderActivity", function (activity) {
             _.extend(activity, {profileRoot: Profile.profileRoot});
 
             if (activity.sType === "Exercise") {
@@ -1230,10 +1240,12 @@ var Profile = {
         $("#recent-activity").append(listTemplate(activities))
             .find("span.timeago").timeago().end();
 
-        _.each(Profile.shareViews, function(v) { v.undelegateEvents(); });
+        _.each(Profile.shareViews, function (v) {
+            v.undelegateEvents();
+        });
         // attach share links views
         var $shareEls = $("#recent-activity").find(".share-links");
-        Profile.shareViews = _.map($shareEls, function(el, i) {
+        Profile.shareViews = _.map($shareEls, function (el, i) {
             return new Badges.ShareLinksView({
                 el: el,
                 model: badgeModels[i]
@@ -1242,7 +1254,7 @@ var Profile = {
     },
 
     activityDeferred_: null,
-    populateActivity: function() {
+    populateActivity: function () {
         if (Profile.activityDeferred_) {
             return Profile.activityDeferred_;
         }
@@ -1255,9 +1267,9 @@ var Profile = {
                 url: "/api/v1/user/activity",
                 data: Profile.getBaseRequestParams_(),
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $("#activity-loading-placeholder").fadeOut(
-                        "slow", function() {
+                        "slow", function () {
                             $(this).hide();
                         });
                     Profile.populateSuggestedActivity(data.suggested);
@@ -1278,7 +1290,7 @@ var Profile = {
      * This includes an identifier for the current profile being viewed at,
      * and other common properties.
      */
-    getBaseRequestParams_: function() {
+    getBaseRequestParams_: function () {
         var params = {
             "casing": "camel"
         };

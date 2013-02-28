@@ -2,11 +2,6 @@
 # -*- coding: utf-8 -*-
 # use json in Python 2.7, fallback to simplejson for Python 2.5
 
-try:
-    import json
-except ImportError:
-    import simplejson as json
-
 from google.appengine.ext.webapp.util import run_wsgi_app
 import webapp2
 
@@ -28,9 +23,13 @@ import wsgi_compat
 class ShowJson(request_handler.RequestHandler):
     @user_util.open_access
     def get(self, language, namespace):
-        self.response.headers['Content-Type'] = "application/json"
-        # self.response.out.write("{lang: " + language + ", 'namespace': " + namespace+"}");
-        self.response.out.write("{'lang': " + language + ", 'namespace': " + namespace+"}");
+        try:
+            with open('./locale/' + language + "/" + namespace + ".json") as file:
+                #Open JSON file and return it
+                self.response.out.write(file.read())
+                self.response.headers['Content-Type'] = "application/json"
+        except IOError as e:
+            self.response.out.write("{}")
 
 
 application = webapp2.WSGIApplication([
