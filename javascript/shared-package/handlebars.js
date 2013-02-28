@@ -101,7 +101,6 @@ Handlebars.registerHelper('with', function (context, options) {
 Handlebars.registerHelper('log', function (context) {
     Handlebars.log(context);
 });
-;
 // lib/handlebars/compiler/parser.js
 /* Jison generated parser */
 var handlebars = (function () {
@@ -117,114 +116,114 @@ var handlebars = (function () {
             var $0 = $$.length - 1;
             switch (yystate) {
                 case 1:
-                    return $$[$0 - 1]
+                    return $$[$0 - 1];
                     break;
                 case 2:
-                    this.$ = new yy.ProgramNode($$[$0 - 2], $$[$0])
+                    this.$ = new yy.ProgramNode($$[$0 - 2], $$[$0]);
                     break;
                 case 3:
-                    this.$ = new yy.ProgramNode($$[$0])
+                    this.$ = new yy.ProgramNode($$[$0]);
                     break;
                 case 4:
-                    this.$ = new yy.ProgramNode([])
+                    this.$ = new yy.ProgramNode([]);
                     break;
                 case 5:
-                    this.$ = [$$[$0]]
+                    this.$ = [$$[$0]];
                     break;
                 case 6:
                     $$[$0 - 1].push($$[$0]);
-                    this.$ = $$[$0 - 1]
+                    this.$ = $$[$0 - 1];
                     break;
                 case 7:
-                    this.$ = new yy.InverseNode($$[$0 - 2], $$[$0 - 1], $$[$0])
+                    this.$ = new yy.InverseNode($$[$0 - 2], $$[$0 - 1], $$[$0]);
                     break;
                 case 8:
-                    this.$ = new yy.BlockNode($$[$0 - 2], $$[$0 - 1], $$[$0])
+                    this.$ = new yy.BlockNode($$[$0 - 2], $$[$0 - 1], $$[$0]);
                     break;
                 case 9:
-                    this.$ = $$[$0]
+                    this.$ = $$[$0];
                     break;
                 case 10:
-                    this.$ = $$[$0]
+                    this.$ = $$[$0];
                     break;
                 case 11:
-                    this.$ = new yy.ContentNode($$[$0])
+                    this.$ = new yy.ContentNode($$[$0]);
                     break;
                 case 12:
-                    this.$ = new yy.CommentNode($$[$0])
+                    this.$ = new yy.CommentNode($$[$0]);
                     break;
                 case 13:
-                    this.$ = new yy.MustacheNode($$[$0 - 1][0], $$[$0 - 1][1])
+                    this.$ = new yy.MustacheNode($$[$0 - 1][0], $$[$0 - 1][1]);
                     break;
                 case 14:
-                    this.$ = new yy.MustacheNode($$[$0 - 1][0], $$[$0 - 1][1])
+                    this.$ = new yy.MustacheNode($$[$0 - 1][0], $$[$0 - 1][1]);
                     break;
                 case 15:
-                    this.$ = $$[$0 - 1]
+                    this.$ = $$[$0 - 1];
                     break;
                 case 16:
-                    this.$ = new yy.MustacheNode($$[$0 - 1][0], $$[$0 - 1][1])
+                    this.$ = new yy.MustacheNode($$[$0 - 1][0], $$[$0 - 1][1]);
                     break;
                 case 17:
-                    this.$ = new yy.MustacheNode($$[$0 - 1][0], $$[$0 - 1][1], true)
+                    this.$ = new yy.MustacheNode($$[$0 - 1][0], $$[$0 - 1][1], true);
                     break;
                 case 18:
-                    this.$ = new yy.PartialNode($$[$0 - 1])
+                    this.$ = new yy.PartialNode($$[$0 - 1]);
                     break;
                 case 19:
-                    this.$ = new yy.PartialNode($$[$0 - 2], $$[$0 - 1])
+                    this.$ = new yy.PartialNode($$[$0 - 2], $$[$0 - 1]);
                     break;
                 case 20:
                     break;
                 case 21:
-                    this.$ = [[$$[$0 - 2]].concat($$[$0 - 1]), $$[$0]]
+                    this.$ = [[$$[$0 - 2]].concat($$[$0 - 1]), $$[$0]];
                     break;
                 case 22:
-                    this.$ = [[$$[$0 - 1]].concat($$[$0]), null]
+                    this.$ = [[$$[$0 - 1]].concat($$[$0]), null];
                     break;
                 case 23:
                     this.$ = [
                         [$$[$0 - 1]],
                         $$[$0]
-                    ]
+                    ];
                     break;
                 case 24:
                     this.$ = [
                         [$$[$0]],
                         null
-                    ]
+                    ];
                     break;
                 case 25:
                     $$[$0 - 1].push($$[$0]);
                     this.$ = $$[$0 - 1];
                     break;
                 case 26:
-                    this.$ = [$$[$0]]
+                    this.$ = [$$[$0]];
                     break;
                 case 27:
-                    this.$ = $$[$0]
+                    this.$ = $$[$0];
                     break;
                 case 28:
-                    this.$ = new yy.StringNode($$[$0])
+                    this.$ = new yy.StringNode($$[$0]);
                     break;
                 case 29:
-                    this.$ = new yy.IntegerNode($$[$0])
+                    this.$ = new yy.IntegerNode($$[$0]);
                     break;
                 case 30:
-                    this.$ = new yy.BooleanNode($$[$0])
+                    this.$ = new yy.BooleanNode($$[$0]);
                     break;
                 case 31:
-                    this.$ = new yy.HashNode($$[$0])
+                    this.$ = new yy.HashNode($$[$0]);
                     break;
                 case 32:
                     $$[$0 - 1].push($$[$0]);
-                    this.$ = $$[$0 - 1]
+                    this.$ = $$[$0 - 1];
                     break;
                 case 33:
-                    this.$ = [$$[$0]]
+                    this.$ = [$$[$0]];
                     break;
                 case 34:
-                    this.$ = [$$[$0 - 2], $$[$0]]
+                    this.$ = [$$[$0 - 2], $$[$0]];
                     break;
                 case 35:
                     this.$ = [$$[$0 - 2], new yy.StringNode($$[$0])];
@@ -243,7 +242,7 @@ var handlebars = (function () {
                     this.$ = $$[$0 - 2];
                     break;
                 case 40:
-                    this.$ = [$$[$0]]
+                    this.$ = [$$[$0]];
                     break;
             }
         },
@@ -358,8 +357,7 @@ var handlebars = (function () {
                     token = self.symbols_[token] || token;
                 }
                 return token;
-            };
-
+            }
             var symbol, preErrorSymbol, state, action, a, r, yyval = {}, p, len, newState, expected;
             while (true) {
                 // retreive state number from top of stack
@@ -709,7 +707,7 @@ var handlebars = (function () {
         lexer.rules = [/^[^\x00]*?(?=(\{\{))/, /^[^\x00]+/, /^\{\{>/, /^\{\{#/, /^\{\{\//, /^\{\{\^/, /^\{\{\s*else\b/, /^\{\{\{/, /^\{\{&/, /^\{\{![\s\S]*?\}\}/, /^\{\{/, /^=/, /^\.(?=[} ])/, /^\.\./, /^[/.]/, /^\s+/, /^\}\}\}/, /^\}\}/, /^"(\\["]|[^"])*"/, /^true(?=[}\s])/, /^false(?=[}\s])/, /^[0-9]+(?=[}\s])/, /^[a-zA-Z0-9_$-]+(?=[=}\s/.])/, /^\[.*\]/, /^./, /^$/];
         lexer.conditions = {"mu": {"rules": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25], "inclusive": false}, "INITIAL": {"rules": [0, 1, 25], "inclusive": true}};
         return lexer;
-    })()
+    })();
     parser.lexer = lexer;
     return parser;
 })();
@@ -717,7 +715,7 @@ if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
     exports.parser = handlebars;
     exports.parse = function () {
         return handlebars.parse.apply(handlebars, arguments);
-    }
+    };
     exports.main = function commonjsMain(args) {
         if (!args[1])
             throw new Error('Usage: ' + args[0] + ' FILE');
@@ -728,13 +726,11 @@ if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
             var source = cwd.join(args[1]).read({charset: "utf-8"});
         }
         return exports.parser.parse(source);
-    }
+    };
     if (typeof module !== 'undefined' && require.main === module) {
         exports.main(typeof process !== 'undefined' ? process.argv.slice(1) : require("system").args);
     }
 }
-;
-;
 // lib/handlebars/compiler/base.js
 Handlebars.Parser = handlebars;
 
@@ -758,7 +754,6 @@ Handlebars.logger = {
 Handlebars.log = function (level, str) {
     Handlebars.logger.log(level, str);
 };
-;
 // lib/handlebars/compiler/ast.js
 (function () {
 
@@ -866,7 +861,6 @@ Handlebars.log = function (level, str) {
     };
 
 })();
-;
 // lib/handlebars/utils.js
 Handlebars.Exception = function (message) {
     var tmp = Error.prototype.constructor.apply(this, arguments);
@@ -933,7 +927,6 @@ Handlebars.SafeString.prototype.toString = function () {
         }
     };
 })();
-;
 // lib/handlebars/compiler/compiler.js
 Handlebars.Compiler = function () {
 };
@@ -1391,7 +1384,7 @@ Handlebars.JavaScriptCompiler = function () {
 
             // Generate minimizer alias mappings
             if (!this.isChild) {
-                var aliases = []
+                var aliases = [];
                 for (var alias in this.context.aliases) {
                     this.source[1] = this.source[1] + ', ' + alias + '=' + this.context.aliases[alias];
                 }
@@ -1698,10 +1691,7 @@ Handlebars.JavaScriptCompiler = function () {
     }
 
     JavaScriptCompiler.isValidJavaScriptVariableName = function (name) {
-        if (!JavaScriptCompiler.RESERVED_WORDS[name] && /^[a-zA-Z_$][0-9a-zA-Z_$]+$/.test(name)) {
-            return true;
-        }
-        return false;
+        return !JavaScriptCompiler.RESERVED_WORDS[name] && /^[a-zA-Z_$][0-9a-zA-Z_$]+$/.test(name);
     }
 
 })(Handlebars.Compiler, Handlebars.JavaScriptCompiler);
@@ -1734,7 +1724,6 @@ Handlebars.compile = function (string, options) {
         return compiled.call(this, context, options);
     };
 };
-;
 // lib/handlebars/vm.js
 Handlebars.VM = {
     template: function (templateSpec) {
@@ -1798,4 +1787,4 @@ Handlebars.VM = {
 };
 
 Handlebars.template = Handlebars.VM.template;
-;
+
