@@ -12,3 +12,4 @@ remoteapi_CUSTOM_ENVIRONMENT_AUTHENTICATION = (
 # tracking the source of an RPC. Makes for easier stack tracing. See
 # http://code.google.com/p/appengine-ndb-experiment/issues/detail?id=29
 appstats_MAX_STACK = 15
+webapp_django_version = '1.3'
