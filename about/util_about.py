@@ -1,7 +1,7 @@
 import request_handler
 import user_util
 from video_models import Video
-
+from webapp2_extras import i18n
 
 class AboutRequestHandler(request_handler.RequestHandler):
     def render_jinja2_template(self, template_name, template_values):
